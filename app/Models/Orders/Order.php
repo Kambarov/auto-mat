@@ -119,4 +119,10 @@ class Order extends Model
         $this->setCancelledStatus();
         $this->save();
     }
+
+    public function scopeSortByStatus($query, $status)
+    {
+        if ($status)
+            return $query->where('order_status_id', $status);
+    }
 }

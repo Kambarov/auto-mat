@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Orders\Order;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        View::composer('dashboard.partials.order.list', function ($view) {
+            $view->with('order_count', Order::query()->where('order_status_id', 1)->count());
+        });
     }
 }

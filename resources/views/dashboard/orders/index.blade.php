@@ -29,29 +29,24 @@
                                     <tr>
                                         <th scope="row">{{ $item->id }}</th>
                                         <td class="text-center">
-                                            {{ $item->name }}
+                                            {{ $item->order_delivery->full_name }}
                                         </td>
                                         <td class="text-center">
-                                            {{ $item->phone }}
+                                            {{ $item->order_delivery->phone }}
                                         </td>
                                         <td class="text-center">
-                                            {{ $item->address }}
+                                            {{ $item->order_delivery->address }}
                                         </td>
                                         <td class="text-center">
-                                            @switch($item->status)
-                                                @case(config('constants.order_status.new'))
-                                                    <button type="button" class="btn btn-info btn-sm mr-1 mb-1">@lang('admin.orders.status.new')</button>
-                                                    @break
-                                                @case(config('constants.order_status.pending'))
-                                                    <button type="button" class="btn btn-warning btn-sm mr-1 mb-1">@lang('admin.orders.status.pending')</button>
-                                                    @break
-                                                @case(config('constants.order_status.paid'))
-                                                    <button type="button" class="btn btn-success btn-sm mr-1 mb-1">@lang('admin.orders.status.paid')</button>
-                                                    @break
-                                                @case(config('constants.order_status.cancelled'))
-                                                    <button type="button" class="btn btn-secondary btn-sm mr-1 mb-1">@lang('admin.orders.status.cancelled')</button>
-                                                    @break
-                                            @endswitch
+                                            @if($item->isCreated())
+                                                <button type="button" class="btn btn-info  mr-1 mb-1">@lang('admin.orders.status.new')</button>
+                                            @elseif($item->isInProgress())
+                                                <button type="button" class="btn btn-warning  mr-1 mb-1">@lang('admin.orders.status.pending')</button>
+                                            @elseif($item->isCompleted())
+                                                <button type="button" class="btn btn-success  mr-1 mb-1">@lang('admin.orders.status.paid')</button>
+                                            @elseif($item->isCancelled())
+                                                <button type="button" class="btn btn-secondary  mr-1 mb-1">@lang('admin.orders.status.cancelled')</button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty
