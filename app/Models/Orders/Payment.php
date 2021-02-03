@@ -26,6 +26,10 @@ class Payment extends Model
         'click_cancel_time'
     ];
 
+    protected $casts = [
+        'paid' => 'boolean'
+    ];
+
     public static function getPaymentMethods()
     {
         return [

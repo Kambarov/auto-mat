@@ -25,6 +25,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+{{--                                @dd($billings)--}}
                                 @forelse($billings as $item)
                                     <tr>
                                         <th scope="row">{{ $item->id }}</th>
@@ -32,15 +33,15 @@
                                             {{ $item->order->unique_id }}
                                         </td>
                                         <td class="text-center">
-                                            {{ $item->phone }}
+                                            {{ $item->order->order_delivery->phone }}
                                         </td>
                                         <td class="text-center">
-                                            @if($item->paid)
-                                                <button type="button" class="btn btn-success btn-sm mr-1 mb-1">@lang('admin.billings.status.paid')</button>
-                                            @elseif(!$item->paid)
-                                                <button type="button" class="btn btn-warning btn-sm mr-1 mb-1">@lang('admin.billings.status.pending')</button>
-                                            @elseif($item->cancelled)
-                                                <button type="button" class="btn btn-secondary btn-sm mr-1 mb-1">@lang('admin.billings.status.cancelled')</button>
+                                            @if($item->payme_state === 2)
+                                                <button type="button" class="btn btn-success mr-1 mb-1">@lang('admin.orders.status.paid')</button>
+                                            @elseif($item->payme_state === -2)
+                                                <button type="button" class="btn btn-secondary mr-1 mb-1">@lang('admin.orders.status.cancelled')</button>
+                                            @elseif($item->payme_state === 1)
+                                                <button type="button" class="btn btn-warning mr-1 mb-1">@lang('admin.orders.status.pending')</button>
                                             @endif
                                         </td>
                                         <td class="text-center">

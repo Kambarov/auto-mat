@@ -46,13 +46,12 @@
                                             {{ $item->formatted_price }}
                                         </td>
                                         <td class="text-center">
-                                            @if($item->isCreated())
-                                                <button type="button" class="btn btn-info  mr-1 mb-1">@lang('admin.orders.status.new')</button>
-                                            @elseif($item->isInProgress())
+                                            @if($item->payment->payme_state === 1)
+{{--                                                <button type="button" class="btn btn-info  mr-1 mb-1">@lang('admin.orders.status.new')</button>--}}
                                                 <button type="button" class="btn btn-warning  mr-1 mb-1">@lang('admin.orders.status.pending')</button>
-                                            @elseif($item->isCompleted())
+                                            @elseif($item->payment->payme_state === 2)
                                                 <button type="button" class="btn btn-success  mr-1 mb-1">@lang('admin.orders.status.paid')</button>
-                                            @elseif($item->isCancelled())
+                                            @elseif($item->payment->payme_state === -2)
                                                 <button type="button" class="btn btn-secondary  mr-1 mb-1">@lang('admin.orders.status.cancelled')</button>
                                             @endif
                                         </td>

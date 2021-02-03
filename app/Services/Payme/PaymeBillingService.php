@@ -167,11 +167,14 @@ class PaymeBillingService
             $payment->performPayme();
             $perform_time = $payment->payme_perform_time;
 
-            $order = $payment->order;
-            if ($order->balance() == 0) {
-                $order->paid = true;
-                $order->save();
-            }
+            $payment->order()->update([
+                'paid' => true
+            ]);
+//            $order = $payment->order;
+//            if ($order->balance() == 0) {
+//                $order->paid = true;
+//                $order->save();
+//            }
 
             // if (config('app.env') == 'production') {
             //     $message = TelegramMessages::paymentSuccess(
@@ -358,7 +361,7 @@ class PaymeBillingService
         }
 
         $order = Order::byUniqueId($request->params['account']['order_id'])->unpaid()->inProgress()->first();
-        
+
         if (!$order) {
             return self::getErrorResponse(self::ERROR_INVALID_ACCOUNT, 'order');
         }

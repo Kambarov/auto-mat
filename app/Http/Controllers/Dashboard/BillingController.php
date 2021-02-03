@@ -12,7 +12,7 @@ class BillingController extends Controller
     {
         $billings = Payment::query()
             ->latest('id')
-            ->with('order')
+            ->with(['order', 'order.order_delivery'])
             ->paginate(config('app.per_page'));
 
         return view('dashboard.billings.index', compact('billings'));

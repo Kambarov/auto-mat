@@ -136,7 +136,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('home') }}" target="_blank"><i class="feather icon-globe"></i>
+                <a href="https://auto-mat.uz" target="_blank"><i class="feather icon-globe"></i>
                     <span class="menu-title" data-i18n="Chat">@lang('admin.site')</span>
                 </a>
             </li>
