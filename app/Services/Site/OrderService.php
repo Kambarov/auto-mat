@@ -46,7 +46,9 @@ class OrderService
             return $result;
         }, []));
 
-        $this->order->setInProgressStatus();
+        $order->update([
+            'order_status_id' => $this->order->setInProgressStatus()
+        ]);
 
         $order->load('order_delivery', 'items', 'status');
 

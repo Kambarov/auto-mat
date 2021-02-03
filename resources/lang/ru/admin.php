@@ -33,7 +33,8 @@ return [
             'for_home' => 'Для дома',
             'other' => 'Другое',
         ],
-        'description' => 'Описание'
+        'description' => 'Описание',
+        'price' => 'Цена'
     ],
 
     'orders' => [
@@ -47,7 +48,8 @@ return [
             'paid' => 'Оплачено',
             'cancelled' => 'Отказано',
             'waiting' => 'В ожидании'
-        ]
+        ],
+        'amount' => 'Сумма'
     ],
 
     'settings' => [

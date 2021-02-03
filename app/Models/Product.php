@@ -74,4 +74,9 @@ class Product extends Model
         if ($type)
             return $query->where('type', $type);
     }
+
+    public function getFormattedPriceAttribute()
+    {
+        return number_format($this->price, 0, ' ', ' ');
+    }
 }

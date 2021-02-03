@@ -17,9 +17,11 @@
                                 <thead>
                                 <tr>
                                     <th scope="col" width="50">ID</th>
+                                    <th scope="col" class="text-center">@lang('admin.billings.order_id')</th>
                                     <th scope="col" width="200" class="text-center">@lang('admin.orders.name')</th>
                                     <th scope="col" width="150" class="text-center">@lang('admin.phone')</th>
                                     <th scope="col" class="text-center">@lang('admin.address')</th>
+                                    <th scope="col" class="text-center">@lang('admin.orders.amount')</th>
                                     <th scope="col" class="text-center">@lang('admin.orders.status.title')</th>
 {{--                                    <th scope="col" class="text-right">@lang('admin.actions')</th>--}}
                                 </tr>
@@ -29,6 +31,9 @@
                                     <tr>
                                         <th scope="row">{{ $item->id }}</th>
                                         <td class="text-center">
+                                            {{ $item->unique_id }}
+                                        </td>
+                                        <td class="text-center">
                                             {{ $item->order_delivery->full_name }}
                                         </td>
                                         <td class="text-center">
@@ -36,6 +41,9 @@
                                         </td>
                                         <td class="text-center">
                                             {{ $item->order_delivery->address }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ $item->formatted_price }}
                                         </td>
                                         <td class="text-center">
                                             @if($item->isCreated())

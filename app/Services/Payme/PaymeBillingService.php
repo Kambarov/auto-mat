@@ -8,6 +8,7 @@ use App\Models\Orders\Payment;
 use App\Services\TelegramMessages;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class PaymeBillingService
@@ -73,7 +74,7 @@ class PaymeBillingService
     public static function CheckPerformTransaction(Request $request)
     {
         $order_or_error = self::validateAndGetOrder($request);
-        if (array_key_exists('error', $order_or_error)) {
+        if (isset($order_or_error['error'])) {
             return $order_or_error;
         }
 
@@ -88,7 +89,7 @@ class PaymeBillingService
     public static function CreateTransaction(Request $request)
     {
         $order_or_error = self::validateAndGetOrder($request);
-        if (array_key_exists('error', $order_or_error)) {
+        if (isset($order_or_error['error'])) {
             return $order_or_error;
         }
 
@@ -96,13 +97,13 @@ class PaymeBillingService
         $payment = Payment::byPaymeId($request->params['id'])->first();
         // if no transaction create new
         if (!$payment) {
-//            $order = Order::where('unique_id', $request->params['account']['order_id'])->first();
-//
-//            $transactions = Payment::where('order_id', $order->id)->latest('id')->get();
+            $order = Order::where('unique_id', $request->params['account']['order_id'])->first();
 
-//            if (count($transactions) > 0) {
-//                return self::getErrorResponse(self::ERROR_INVALID_ACCOUNT, 'time');
-//            }
+            $transactions = Payment::where('order_id', $order->id)->latest('id')->get();
+
+            if (count($transactions) > 0) {
+                return self::getErrorResponse(self::ERROR_INVALID_ACCOUNT, 'time');
+            }
 
             if (now()->timestamp * 1000 - $request->params['time'] > Payment::TIMEOUT) {
                 return self::getErrorResponse(self::ERROR_COULD_NOT_PERFORM, 'time');
@@ -172,17 +173,17 @@ class PaymeBillingService
                 $order->save();
             }
 
-            if (config('app.env') == 'production') {
-                $message = TelegramMessages::paymentSuccess(
-                    $order->order_delivery->full_name,
-                    $order->order_delivery->phone,
-                    $order->order_delivery->address,
-                    $order->items[0]->quantity,
-                    'https://admin.humimax.uz/orders-edit/' . $order->id,
-                    $payment->amount
-                );
-                SendTelegramNotification::dispatch($message);
-            }
+            // if (config('app.env') == 'production') {
+            //     $message = TelegramMessages::paymentSuccess(
+            //         $order->order_delivery->full_name,
+            //         $order->order_delivery->phone,
+            //         $order->order_delivery->address,
+            //         $order->items[0]->quantity,
+            //         'https://admin.humimax.uz/orders-edit/' . $order->id,
+            //         $payment->amount
+            //     );
+            //     SendTelegramNotification::dispatch($message);
+            // }
 
             return [
                 'result' => [
@@ -253,7 +254,7 @@ class PaymeBillingService
             $payment->cancelPayme(Payment::STATE_CANCELLED, (int)$request->params['reason']);
             $cancel_time = $payment->payme_cancel_time;
 
-            $payment->order->makeAvailable();
+            // $payment->order->makeAvailable();
             return [
                 'result' => [
                     'transaction' => (string)$payment->id,
@@ -357,11 +358,12 @@ class PaymeBillingService
         }
 
         $order = Order::byUniqueId($request->params['account']['order_id'])->unpaid()->inProgress()->first();
+        
         if (!$order) {
             return self::getErrorResponse(self::ERROR_INVALID_ACCOUNT, 'order');
         }
 
-        if ($request->params['amount'] / 100 > $order->balance()) {
+        if ($request->params['amount'] / 100 !== $order->balance()) {
             return self::getErrorResponse(self::ERROR_INVALID_AMOUNT, 'amount');
         }
 

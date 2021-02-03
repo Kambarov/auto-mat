@@ -39,6 +39,22 @@
                                                 @enderror
                                             </div>
 
+                                            <label>@lang('admin.products.price')</label>
+                                            <div class="controls">
+                                                <fieldset class="form-group position-relative has-icon-left input-divider-left">
+                                                    <input type="text" name="price" class="form-control @error('price') is-invalid @enderror"
+                                                           value="{{ old('price', $product->price) }}" required placeholder="@lang('admin.products.price')">
+                                                    <div class="form-control-position">
+                                                        <i class="feather icon-dollar-sign"></i>
+                                                    </div>
+                                                </fieldset>
+                                                @error('price')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+
                                             <label>@lang('admin.products.description')</label>
                                             <div class="controls">
                                                 <fieldset class="form-group position-relative">

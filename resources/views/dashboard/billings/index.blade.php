@@ -17,9 +17,10 @@
                                 <thead>
                                 <tr>
                                     <th scope="col" width="50">ID</th>
-                                    <th scope="col" width="200" class="text-center">@lang('admin.billings.order_id')</th>
-                                    <th scope="col" width="150" class="text-center">@lang('admin.phone')</th>
+                                    <th scope="col" class="text-center">@lang('admin.billings.order_id')</th>
+                                    <th scope="col" class="text-center">@lang('admin.phone')</th>
                                     <th scope="col" class="text-center">@lang('admin.orders.status.title')</th>
+                                    <th scope="col" class="text-center">@lang('admin.orders.amount')</th>
                                     {{--                                    <th scope="col" class="text-right">@lang('admin.actions')</th>--}}
                                 </tr>
                                 </thead>
@@ -28,26 +29,22 @@
                                     <tr>
                                         <th scope="row">{{ $item->id }}</th>
                                         <td class="text-center">
-                                            {{ $item->order->id }}
+                                            {{ $item->order->unique_id }}
                                         </td>
                                         <td class="text-center">
                                             {{ $item->phone }}
                                         </td>
                                         <td class="text-center">
-                                            @switch($item->status)
-                                                @case(config('constants.order_status.new'))
-                                                <button type="button" class="btn btn-info btn-sm mr-1 mb-1">@lang('admin.orders.status.waiting')</button>
-                                                @break
-                                                @case(config('constants.order_status.pending'))
-                                                <button type="button" class="btn btn-warning btn-sm mr-1 mb-1">@lang('admin.billings.status.pending')</button>
-                                                @break
-                                                @case(config('constants.order_status.paid'))
+                                            @if($item->paid)
                                                 <button type="button" class="btn btn-success btn-sm mr-1 mb-1">@lang('admin.billings.status.paid')</button>
-                                                @break
-                                                @case(config('constants.order_status.cancelled'))
+                                            @elseif(!$item->paid)
+                                                <button type="button" class="btn btn-warning btn-sm mr-1 mb-1">@lang('admin.billings.status.pending')</button>
+                                            @elseif($item->cancelled)
                                                 <button type="button" class="btn btn-secondary btn-sm mr-1 mb-1">@lang('admin.billings.status.cancelled')</button>
-                                                @break
-                                            @endswitch
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            {{ $item->formatted_price }}
                                         </td>
                                     </tr>
                                 @empty

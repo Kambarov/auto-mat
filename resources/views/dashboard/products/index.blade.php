@@ -22,6 +22,7 @@
                                     <th scope="col" width="50">ID</th>
                                     <th scope="col" width="150" class="text-center">@lang('admin.image')</th>
                                     <th scope="col" width="200" class="text-center">@lang('admin.products.name')</th>
+                                    <th scope="col" width="200" class="text-center">@lang('admin.products.price')</th>
                                     <th scope="col" class="text-center">@lang('admin.products.type.title')</th>
                                     <th scope="col" class="text-right">@lang('admin.actions')</th>
                                 </tr>
@@ -35,6 +36,9 @@
                                             </td>
                                             <td class="text-center">
                                                 {{ $item->name }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ $item->formatted_price }}
                                             </td>
                                             <td class="text-center">
                                                 @lang("admin.products.type.{$item->type}")

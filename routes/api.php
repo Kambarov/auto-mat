@@ -29,4 +29,4 @@ Route::post('store-to-basket/{product}', [OrderController::class, 'storeToBasket
 Route::post('submit-form', [OrderController::class, 'checkout']);
 Route::get('orders/{id}', [OrderController::class, 'show']);
 
-Route::post('payme', PaymeController::class);
+Route::post('billing/payme', PaymeController::class);

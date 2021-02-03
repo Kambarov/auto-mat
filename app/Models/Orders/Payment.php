@@ -122,4 +122,8 @@ class Payment extends Model
         return $this->save();
     }
 
+    public function getFormattedPriceAttribute()
+    {
+        return number_format($this->amount, 0, ' ', ' ');
+    }
 }

@@ -125,4 +125,9 @@ class Order extends Model
         if ($status)
             return $query->where('order_status_id', $status);
     }
+
+    public function getFormattedPriceAttribute()
+    {
+        return number_format($this->amount, 0, ' ', ' ');
+    }
 }

@@ -110,11 +110,11 @@
 
             <li class=" navigation-header"><span>Apps</span></li>
 
-{{--            <li class=" nav-item {{ request()->is('dashboard/users*') ? 'active' : '' }}">--}}
-{{--                <a href="{{ route('dashboard.users.index') }}">--}}
-{{--                    <i class="feather icon-users"></i><span class="menu-title">@lang('admin.users.title')</span>--}}
-{{--                </a>--}}
-{{--            </li>--}}
+            <li class=" nav-item {{ request()->is('dashboard/billings*') ? 'active' : '' }}">
+                <a href="{{ route('dashboard.billings.index') }}">
+                    <i class="feather icon-credit-card"></i><span class="menu-title">@lang('admin.billings.title')</span>
+                </a>
+            </li>
 
             <li class=" nav-item {{ request()->is('dashboard/products*') ? 'active' : '' }}">
                 <a href="{{ route('dashboard.products.index') }}">
