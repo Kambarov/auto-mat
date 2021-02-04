@@ -21,6 +21,10 @@ class Product extends Model
         'price'
     ];
 
+    protected $appends = [
+        'formatted_price'
+    ];
+
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value;

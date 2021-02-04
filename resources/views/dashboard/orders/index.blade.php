@@ -23,7 +23,7 @@
                                     <th scope="col" class="text-center">@lang('admin.address')</th>
                                     <th scope="col" class="text-center">@lang('admin.orders.amount')</th>
                                     <th scope="col" class="text-center">@lang('admin.orders.status.title')</th>
-{{--                                    <th scope="col" class="text-right">@lang('admin.actions')</th>--}}
+                                    {{--                                    <th scope="col" class="text-right">@lang('admin.actions')</th>--}}
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -46,13 +46,20 @@
                                             {{ $item->formatted_price }}
                                         </td>
                                         <td class="text-center">
-                                            @if($item->payment->payme_state === 1)
-{{--                                                <button type="button" class="btn btn-info  mr-1 mb-1">@lang('admin.orders.status.new')</button>--}}
-                                                <button type="button" class="btn btn-warning  mr-1 mb-1">@lang('admin.orders.status.pending')</button>
-                                            @elseif($item->payment->payme_state === 2)
-                                                <button type="button" class="btn btn-success  mr-1 mb-1">@lang('admin.orders.status.paid')</button>
-                                            @elseif($item->payment->payme_state === -2)
-                                                <button type="button" class="btn btn-secondary  mr-1 mb-1">@lang('admin.orders.status.cancelled')</button>
+                                            @if($item->payment()->exists())
+                                                @if($item->payment->payme_state === 1)
+                                                    <button type="button" class="btn btn-warning  mr-1 mb-1">@lang('admin.orders.status.pending')</button>
+                                                @elseif($item->payment->payme_state === 2)
+                                                    <button type="button" class="btn btn-success  mr-1 mb-1">@lang('admin.orders.status.paid')</button>
+                                                @elseif($item->payment->payme_state === -2)
+                                                    <button type="button" class="btn btn-secondary  mr-1 mb-1">@lang('admin.orders.status.cancelled')</button>
+                                                @endif
+                                            @else
+                                                @if(!$item->paid)
+                                                    <button type="button" class="btn btn-warning  mr-1 mb-1">@lang('admin.orders.status.pending')</button>
+                                                @else
+                                                    <button type="button" class="btn btn-success  mr-1 mb-1">@lang('admin.orders.status.paid')</button>
+                                                @endif
                                             @endif
                                         </td>
                                     </tr>

@@ -30,6 +30,10 @@ class Order extends Model
         'finished_at'
     ];
 
+    protected $appends = [
+        'formatted_price'
+    ];
+
     protected static function boot()
     {
         parent::boot();

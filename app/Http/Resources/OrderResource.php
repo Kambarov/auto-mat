@@ -22,6 +22,7 @@ class OrderResource extends JsonResource
             'total_price' => $this->amount,
             'order_status' => $this->status->name,
             'paid'       => $this->paid,
+            'formatted_price' => $this->formatted_price,
             'finished_at' => $this->status->id === 3 ? $this->finished_at : null,
             'delivered_at' => $this->order_delivery->delivered ? $this->order_delivery->delivered_at : null,
             'payme_link' => [
